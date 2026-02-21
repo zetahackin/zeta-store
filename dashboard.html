@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - Zeta Store</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(135deg, #0a0a0f, #1f1f2e, #0a0a0f);
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Banner superior */
+  .banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(90deg, #ff00ff, #00ffff);
+    color: #000;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 0 0 10px #fff, 0 0 15px #00ffff;
+    z-index: 1000;
+  }
+
+  /* Botón hamburguesa */
+  .menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 28px;
+    cursor: pointer;
+    margin-right: 20px;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    position: fixed;
+    top: 60px;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background: rgba(20,20,40,0.97);
+    box-shadow: 2px 0 20px #00ffff;
+    transition: 0.3s;
+    padding-top: 20px;
+    z-index: 999;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .sidebar a {
+    display: block;
+    color: #ff00ff;
+    text-decoration: none;
+    padding: 15px 20px;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+  .sidebar a:hover {
+    background: #00ffff;
+    color: #000;
+  }
+
+  /* Contenido principal */
+  .main {
+    padding: 80px 20px 20px 20px;
+    transition: margin-left 0.3s;
+  }
+
+  .user-info {
+    background: rgba(30,30,50,0.9);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px #ff00ff, 0 0 30px #00ffff;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .user-info h2 {
+    margin: 0;
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff;
+  }
+
+  .user-info p {
+    color: #ff00ff;
+    font-weight: bold;
+  }
+
+  @media (max-width: 480px) {
+    .banner {
+      font-size: 20px;
+    }
+    .sidebar {
+      width: 200px;
+    }
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="banner">
+  <button class="menu-btn" id="menuBtn">☰</button>
+  Zeta Store
+</div>
+
+<div class="sidebar" id="sidebar">
+  <a href="#">Inicio</a>
+  <a href="#">Perfil</a>
+  <a href="#">Compras</a>
+  <a href="#">Configuración</a>
+  <a href="#" id="logoutBtn">Cerrar Sesión</a>
+</div>
+
+<div class="main">
+  <div class="user-info">
+    <h2 id="usernameDisplay">¡Bienvenido!</h2>
+    <p id="emailDisplay"></p>
+  </div>
+  <div class="content">
+    <p>Tu dashboard gamer personalizado aquí...</p>
+    <!-- Aquí puedes añadir productos, estadísticas o tarjetas neon -->
+  </div>
+</div>
+
+<script type="module">
+  import { auth } from "./firebase.js";
+  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+
+  const menuBtn = document.getElementById('menuBtn');
+  const sidebar = document.getElementById('sidebar');
+  const usernameDisplay = document.getElementById('usernameDisplay');
+  const emailDisplay = document.getElementById('emailDisplay');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  // Toggle sidebar
+  menuBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+  });
+
+  // Detectar usuario logueado
+  onAuthStateChanged(auth, (user) => {
+    if(user){
+      usernameDisplay.textContent = `¡Bienvenido, ${user.email.split('@')[0]}!`;
+      emailDisplay.textContent = user.email;
+    } else {
+      // Si no hay usuario, redirigir a login
+      window.location.href = "login.html";
+    }
+  });
+
+  // Cerrar sesión
+  logoutBtn.addEventListener('click', async () => {
+    await signOut(auth);
+    window.location.href = "login.html";
+  });
+</script>
+
+</body>
+</html>
