@@ -124,6 +124,39 @@
     margin-bottom: 10px;
   }
 
+  /* 🔥 BOTÓN TELEGRAM OWNER 🔥 */
+  .owner-contact {
+    margin-top: 18px;
+    text-align: center;
+  }
+
+  .telegram-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(90deg, #0088cc, #00ffff);
+    box-shadow: 0 0 12px #0088cc, 0 0 20px #00ffff;
+    transition: 0.3s;
+  }
+
+  .telegram-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #0088cc, 0 0 35px #00ffff;
+  }
+
+  .telegram-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
   @media (max-width: 480px) {
     .banner {
       height: 50px;
@@ -163,6 +196,17 @@
   <div class="link">
     ¿No tienes cuenta? <a href="register.html">Crea tu cuenta aquí</a>
   </div>
+
+  <!-- 🔥 BOTÓN TELEGRAM 🔥 -->
+  <div class="owner-contact">
+    <a href="https://t.me/ZetaOwner" target="_blank" class="telegram-btn">
+      <svg viewBox="0 0 24 24" fill="white">
+        <path d="M9.04 15.47l-.39 5.46c.56 0 .8-.24 1.1-.53l2.64-2.53 5.48 4.01c1 .55 1.72.26 1.97-.92l3.57-16.74.01-.01c.3-1.4-.5-1.95-1.47-1.59L1.56 9.07c-1.37.53-1.35 1.29-.23 1.63l4.7 1.47 10.9-6.87c.51-.31.98-.14.6.17"/>
+      </svg>
+      Comunícate con el dueño
+    </a>
+  </div>
+
 </div>
 
 <script type="module">
@@ -186,12 +230,10 @@
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
 
       errorMsg.textContent = "¡Inicio de sesión exitoso!";
       errorMsg.className = "message success";
 
-      // 🔹 Redirigir al dashboard después de 1 segundo
       setTimeout(() => {
         window.location.href = "dashboard.html";
       }, 1000);
