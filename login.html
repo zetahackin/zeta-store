@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iniciar Sesión - Zeta Store</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(135deg, #0a0a0f, #1f1f2e, #0a0a0f);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding-top: 80px;
+    overflow-y: auto;
+  }
+
+  .banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(90deg, #ff00ff, #00ffff);
+    color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    font-weight: bold;
+    text-shadow: 0 0 10px #fff, 0 0 20px #00ffff;
+    z-index: 1000;
+  }
+
+  .container {
+    background: rgba(15, 15, 35, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff;
+    width: 90%;
+    max-width: 400px;
+    border: 2px solid #00ffcc;
+    margin-bottom: 40px;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #00ffff;
+    text-shadow: 0 0 8px #00ffff;
+  }
+
+  label {
+    display: block;
+    margin-top: 10px;
+    color: #ff00ff;
+    font-size: 14px;
+  }
+
+  input, button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid #555;
+    background: #1b1b35;
+    color: #fff;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+
+  input:focus {
+    outline: none;
+    border: 2px solid #00ffff;
+    box-shadow: 0 0 10px #00ffff;
+  }
+
+  button {
+    background: linear-gradient(90deg, #ff00ff, #00ffff);
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 0 10px #ff00ff, 0 0 15px #00ffff;
+  }
+
+  button:hover {
+    box-shadow: 0 0 20px #ff00ff, 0 0 30px #00ffff;
+    transform: scale(1.05);
+  }
+
+  p.message {
+    min-height: 24px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  p.message.error { color: #ff4d4d; text-shadow: 0 0 5px #ff4d4d; }
+  p.message.success { color: #00ffcc; text-shadow: 0 0 5px #00ffcc; }
+
+  .link {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  .link a {
+    color: #ff00ff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .link a:hover {
+    color: #00ffff;
+  }
+
+  .container::before {
+    content: "🎮";
+    font-size: 36px;
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 480px) {
+    .banner {
+      height: 50px;
+      font-size: 22px;
+    }
+    .container {
+      padding: 20px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 14px;
+    }
+    h2 {
+      font-size: 20px;
+    }
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="banner">Zeta Store</div>
+
+<div class="container">
+  <h2>Iniciar Sesión</h2>
+  <form id="loginForm">
+    <label>Correo Electrónico</label>
+    <input type="email" id="email" placeholder="tu@email.com" required>
+
+    <label>Contraseña</label>
+    <input type="password" id="password" placeholder="Mínimo 6 caracteres" required>
+
+    <button type="submit">Iniciar Sesión</button>
+    <p id="errorMsg" class="message"></p>
+  </form>
+
+  <div class="link">
+    ¿No tienes cuenta? <a href="register.html">Crea tu cuenta aquí</a>
+  </div>
+</div>
+
+<script type="module">
+  import { auth } from "./firebase.js";
+  import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+
+  const form = document.getElementById('loginForm');
+  const errorMsg = document.getElementById('errorMsg');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    if(password.length < 6){
+      errorMsg.textContent = "La contraseña debe tener mínimo 6 caracteres.";
+      errorMsg.className = "message error";
+      return;
+    }
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      errorMsg.textContent = "¡Inicio de sesión exitoso!";
+      errorMsg.className = "message success";
+
+      // 🔹 Redirigir al dashboard después de 1 segundo
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 1000);
+
+    } catch (error) {
+      errorMsg.className = "message error";
+      if(error.code === "auth/user-not-found"){
+        errorMsg.textContent = "Correo no registrado.";
+      } else if(error.code === "auth/wrong-password"){
+        errorMsg.textContent = "Contraseña incorrecta.";
+      } else if(error.code === "auth/invalid-email"){
+        errorMsg.textContent = "Correo no válido.";
+      } else {
+        errorMsg.textContent = error.message;
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
