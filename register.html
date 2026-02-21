@@ -206,7 +206,7 @@
     </form>
 
     <div class="link">
-      ¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a>
+      ¿Ya tienes cuenta? <a href="/">Inicia sesión</a>
     </div>
   </div>
 
@@ -241,7 +241,6 @@
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
 
-    // 🔐 Validaciones básicas
     if (password !== confirmPassword) {
       return showError("⚔️ Las contraseñas no coinciden.");
     }
@@ -256,7 +255,6 @@
 
     try {
 
-      // 🔎 Verificar username único usando colección especial
       const usernameRef = doc(db, "usernames", username);
       const usernameSnap = await getDoc(usernameRef);
 
@@ -264,18 +262,15 @@
         return showError("⚡ Ese nombre de usuario ya está en uso.");
       }
 
-      // 👤 Crear usuario en Auth
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
       try {
 
-        // 💾 Guardar username como reservado
         await setDoc(usernameRef, {
           uid: user.uid
         });
 
-        // 💾 Guardar datos del usuario
         await setDoc(doc(db, "usuarios", user.uid), {
           username,
           email,
@@ -286,20 +281,18 @@
 
       } catch (firestoreError) {
 
-        // ❌ Si falla Firestore, eliminar usuario de Auth
         await deleteUser(user);
         console.error("Firestore error:", firestoreError);
         return showError("🚨 Error guardando datos. Intenta nuevamente.");
       }
 
-      // 📧 Enviar verificación
       await sendEmailVerification(user);
 
       errorMsg.textContent = "📧 Revisa tu correo para verificar tu cuenta.";
       errorMsg.className = "message success";
 
       setTimeout(() => {
-        window.location.href = "login.html";
+        window.location.href = "/";
       }, 3000);
 
     } catch (error) {
