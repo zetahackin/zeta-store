@@ -1,460 +1,340 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard - Zeta Store</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear Cuenta - Zeta Store</title>
 
-<style>
-body{
-  margin:0;
-  font-family:'Orbitron',sans-serif;
-  background:linear-gradient(135deg,#0a0a0f,#1f1f2e,#0a0a0f);
-  color:#fff;
-  min-height:100vh;
-  overflow-x:hidden;
-}
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 
-/* ===== BANNER ===== */
-.banner{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:60px;
-  background:linear-gradient(90deg,#ff00ff,#00ffff);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
-  font-weight:bold;
-  text-shadow:0 0 10px #fff,0 0 15px #00ffff;
-  z-index:1000;
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(circle at top, #111122, #000);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding-top: 90px;
+      overflow-y: auto;
+    }
 
-  animation:zetaFadeUp .6s ease;
-}
+    body::before {
+      content: "";
+      position: fixed;
+      width: 300%;
+      height: 300%;
+      background: linear-gradient(45deg, #ff00ff, #00ffff, #00ffcc, #ff00ff);
+      animation: rotateBg 15s linear infinite;
+      opacity: 0.08;
+      z-index: -1;
+    }
 
-.banner .menu-btn{
-  position:absolute;
-  left:18px;
-  top:14px;
-  background:none;
-  border:none;
-  color:#fff;
-  font-size:26px;
-  cursor:pointer;
-}
+    @keyframes rotateBg {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
 
-/* ===== SIDEBAR ===== */
-.sidebar{
-  position:fixed;
-  top:60px;
-  left:-250px;
-  width:250px;
-  height:100%;
-  background:rgba(20,20,40,0.97);
-  box-shadow:2px 0 20px #00ffff;
-  transition:left .3s;
-  padding-top:20px;
-  z-index:1050;
+    .banner {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 65px;
+      background: linear-gradient(90deg, #ff00ff, #00ffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 28px;
+      font-weight: 900;
+      color: #000;
+      text-shadow: 0 0 15px #fff;
+      letter-spacing: 2px;
+    }
 
-  animation:zetaFadeLeft .4s ease;
-}
-.sidebar.open{left:0;}
+    .container {
+      background: rgba(10, 10, 25, 0.95);
+      padding: 35px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 420px;
+      border: 2px solid #00ffff;
+      box-shadow: 0 0 25px #ff00ff, 0 0 60px #00ffff;
+      animation: fadeIn 1s ease-in-out;
+    }
 
-.sidebar a{
-  display:block;
-  color:#ff00ff;
-  text-decoration:none;
-  padding:14px 18px;
-  font-weight:bold;
-  transition:.2s;
-  font-size:14px;
-}
-.sidebar a:hover{
-  background:#00ffff;
-  color:#000;
-}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-/* ===== MAIN OPTIMIZADO ===== */
-.main{
-  padding:80px 16px 25px;
-  max-width:1200px;
-  margin:auto;
-}
+    h2 {
+      text-align: center;
+      color: #00ffff;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #00ffff;
+    }
 
-/* ===== USER INFO ===== */
-.user-info{
-  background:rgba(30,30,50,.9);
-  padding:16px;
-  border-radius:10px;
-  box-shadow:0 0 20px #ff00ff,0 0 30px #00ffff;
-  text-align:center;
-  margin-bottom:20px;
+    label {
+      font-size: 14px;
+      color: #ff00ff;
+    }
 
-  animation:zetaFadeUp .6s ease;
-}
-.user-info h2{
-  margin:0;
-  color:#00ffff;
-  text-shadow:0 0 10px #00ffff;
-  font-size:20px;
-}
-.user-info p{
-  color:#ff00ff;
-  font-weight:bold;
-  font-size:13px;
-}
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      border: 1px solid #444;
+      background: #111133;
+      color: #fff;
+      font-size: 15px;
+      transition: 0.3s;
+    }
 
-/* ===== STATS ===== */
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:14px;
-  margin-bottom:20px;
-}
-.stat-card{
-  background:rgba(20,20,40,.9);
-  padding:14px 10px;
-  border-radius:10px;
-  text-align:center;
-  box-shadow:0 0 12px #00ffff44;
-  transition:.25s;
+    input:focus, select:focus {
+      border: 2px solid #00ffff;
+      box-shadow: 0 0 12px #00ffff;
+      outline: none;
+    }
 
-  animation:zetaFadeUp .7s ease;
-}
-.stat-card:hover{
-  transform:translateY(-4px) scale(1.03);
-  box-shadow:0 0 20px #00ffff,0 0 35px #ff00ff55;
-  animation:zetaGlow 1.8s infinite;
-}
-.stat-number{
-  font-size:20px;
-  color:#00ffff;
-  text-shadow:0 0 8px #00ffff;
-  font-weight:bold;
-}
-.stat-label{
-  color:#ff00ff;
-  margin-top:3px;
-  font-size:11px;
-}
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      background: linear-gradient(90deg, #ff00ff, #00ffff);
+      box-shadow: 0 0 15px #ff00ff, 0 0 25px #00ffff;
+      transition: 0.3s;
+      animation: pulse 2s infinite;
+    }
 
-/* ===== TITULOS ===== */
-.section-title{
-  font-size:16px;
-  color:#00ffff;
-  text-shadow:0 0 6px #00ffff;
-  margin:18px 0 10px;
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
 
-  animation:zetaFadeLeft .6s ease;
-}
+    @keyframes pulse {
+      0% { box-shadow: 0 0 15px #ff00ff, 0 0 25px #00ffff; }
+      50% { box-shadow: 0 0 25px #ff00ff, 0 0 45px #00ffff; }
+      100% { box-shadow: 0 0 15px #ff00ff, 0 0 25px #00ffff; }
+    }
 
-/* ===== CARDS ===== */
-.cards{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
-}
-.card{
-  background:rgba(30,30,50,.9);
-  padding:14px;
-  border-radius:10px;
-  box-shadow:0 0 12px #ff00ff44;
-  transition:.25s;
+    button:hover {
+      transform: scale(1.05);
+    }
 
-  animation:zetaFadeUp .8s ease;
-}
-.card:hover{
-  transform:translateY(-6px) scale(1.02);
-  box-shadow:0 0 22px #ff00ff,0 0 35px #00ffff44;
-}
-.card h3{
-  margin:0 0 6px;
-  color:#ff00ff;
-  font-size:14px;
-}
-.card p{
-  font-size:12px;
-  color:#ddd;
-  line-height:1.3;
-}
+    .terms-container {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
 
-/* ===== ACTIVIDAD ===== */
-.activity-item{
-  background:rgba(20,20,40,.9);
-  padding:10px;
-  border-radius:6px;
-  margin-bottom:8px;
-  font-size:12px;
-  box-shadow:0 0 8px #00ffff33;
+    .terms-container input {
+      width: 18px;
+      height: 18px;
+      accent-color: #00ffff;
+      cursor: pointer;
+    }
 
-  animation:zetaFadeUp .9s ease;
-}
+    .terms-container a {
+      color: #00ffff;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.3s;
+    }
 
-/* ===== PRODUCTOS (TU SISTEMA) ===== */
-.productos-container{
-  position:fixed;
-  top:60px;
-  left:0;
-  width:100%;
-  height:calc(100% - 60px);
-  background:linear-gradient(135deg,#0a0a0f,#1f1f2e,#0a0a0f);
-  display:none;
-  flex-direction:column;
-  align-items:center;
-  padding:20px;
-  z-index:1000;
-  overflow-y:auto;
-}
-.productos-container.open{display:flex;}
+    .terms-container a:hover {
+      color: #ff00ff;
+      text-shadow: 0 0 8px #ff00ff;
+    }
 
-.productos-container h2{
-  color:#00ffff;
-  text-shadow:0 0 10px #00ffff;
-}
+    .message {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 10px;
+      min-height: 25px;
+    }
 
-.filtros{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:10px;
-  margin-bottom:20px;
-  width:100%;
-  max-width:900px;
-}
+    .success {
+      color: #00ffcc;
+      text-shadow: 0 0 10px #00ffcc;
+    }
 
-.filtros button{
-  padding:8px 12px;
-  border:none;
-  border-radius:8px;
-  background:linear-gradient(90deg,#ff00ff,#00ffff);
-  color:#000;
-  font-weight:bold;
-  cursor:pointer;
-  font-size:14px;
+    .error {
+      color: #ff4d4d;
+      text-shadow: 0 0 10px #ff4d4d;
+    }
 
-  transition:transform .2s ease,box-shadow .2s ease;
-}
-.filtros button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 0 14px #00ffff88;
-}
+    .link {
+      text-align: center;
+      margin-top: 15px;
+    }
 
-.filtros input{
-  padding:8px;
-  border-radius:8px;
-  border:none;
-  width:200px;
-  font-size:14px;
-}
+    .link a {
+      color: #ff00ff;
+      text-decoration: none;
+      font-weight: bold;
+    }
 
-.productos-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:15px;
-  width:100%;
-  max-width:900px;
-}
-.producto{
-  background:rgba(30,30,50,.9);
-  padding:15px;
-  border-radius:10px;
-  box-shadow:0 0 15px #ff00ff,0 0 20px #00ffff;
-  text-align:center;
-
-  animation:zetaFadeUp .7s ease;
-  transition:transform .25s ease,box-shadow .25s ease;
-}
-.producto:hover{
-  transform:translateY(-6px) scale(1.03);
-  box-shadow:0 0 25px #ff00ff,0 0 40px #00ffff;
-}
-.producto img{
-  width:100%;
-  height:200px;
-  object-fit:cover;
-  border-radius:10px;
-  margin-bottom:10px;
-  box-shadow:0 0 10px #00ffff;
-
-  transition:transform .3s ease;
-}
-.producto:hover img{
-  transform:scale(1.05);
-}
-.producto h3{color:#ff00ff;font-size:16px;margin:5px 0;}
-.producto p{font-size:14px;margin-bottom:10px;}
-.producto button{
-  padding:8px 16px;
-  border:none;
-  border-radius:8px;
-  background:linear-gradient(90deg,#ff00ff,#00ffff);
-  color:#000;
-  font-weight:bold;
-  cursor:pointer;
-
-  transition:transform .2s ease,box-shadow .2s ease;
-}
-.producto button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 0 14px #00ffff88;
-}
-
-/* ===== RESPONSIVE ===== */
-@media(max-width:1024px){
-  .stats{grid-template-columns:repeat(2,1fr);}
-  .cards{grid-template-columns:repeat(2,1fr);}
-}
-@media(max-width:600px){
-  .stats{grid-template-columns:repeat(2,1fr);}
-  .cards{grid-template-columns:1fr;}
-  .banner{font-size:18px;}
-}
-
-/* ===== KEYFRAMES NUEVOS ===== */
-@keyframes zetaFadeUp{
-  from{opacity:0;transform:translateY(18px)}
-  to{opacity:1;transform:translateY(0)}
-}
-@keyframes zetaFadeLeft{
-  from{opacity:0;transform:translateX(-18px)}
-  to{opacity:1;transform:translateX(0)}
-}
-@keyframes zetaGlow{
-  0%{box-shadow:0 0 0px #00ffff}
-  50%{box-shadow:0 0 18px #00ffff}
-  100%{box-shadow:0 0 0px #00ffff}
-}
-</style>
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    .link a:hover {
+      color: #00ffff;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="banner">
-<button class="menu-btn" id="menuBtn">☰</button>
-Zeta Store
-</div>
+<div class="banner">ZETA STORE</div>
 
-<div class="sidebar" id="sidebar">
-<a href="#" id="inicioBtn">Inicio</a>
-<a href="#" id="comprarBtn">Comprar productos</a>
-<a href="#">Perfil</a>
-<a href="#">Compras</a>
-<a href="#">Configuración</a>
-<a href="#" id="logoutBtn">Cerrar Sesión</a>
-</div>
+<div class="container">
+  <h2>Crear Cuenta</h2>
 
-<div class="main">
+  <form id="registerForm">
+    <label>Nombre de Usuario</label>
+    <input type="text" id="username" required>
 
-<div class="user-info">
-<h2 id="usernameDisplay">¡Bienvenido!</h2>
-<p id="emailDisplay"></p>
-</div>
+    <label>Correo Electrónico</label>
+    <input type="email" id="email" required>
 
-<div class="stats">
-<div class="stat-card"><div class="stat-number">+1,284</div><div class="stat-label">Compradores satisfechos</div></div>
-<div class="stat-card"><div class="stat-number">+3,920</div><div class="stat-label">Productos vendidos</div></div>
-<div class="stat-card"><div class="stat-number">99.8%</div><div class="stat-label">Valoraciones positivas</div></div>
-<div class="stat-card"><div class="stat-number">24/7</div><div class="stat-label">Soporte activo</div></div>
-</div>
+    <label>WhatsApp</label>
+    <select id="countryCode">
+      <option value="+49">Alemania +49</option>
+      <option value="+54">Argentina +54</option>
+      <option value="+591">Bolivia +591</option>
+      <option value="+55">Brasil +55</option>
+      <option value="+1">Canadá +1</option>
+      <option value="+56">Chile +56</option>
+      <option value="+82">Corea del Sur +82</option>
+      <option value="+506">Costa Rica +506</option>
+      <option value="+593">Ecuador +593</option>
+      <option value="+503">El Salvador +503</option>
+      <option value="+971">Emiratos Árabes Unidos +971</option>
+      <option value="+34">España +34</option>
+      <option value="+33">Francia +33</option>
+      <option value="+502">Guatemala +502</option>
+      <option value="+504">Honduras +504</option>
+      <option value="+91">India +91</option>
+      <option value="+39">Italia +39</option>
+      <option value="+81">Japón +81</option>
+      <option value="+52">México +52</option>
+      <option value="+505">Nicaragua +505</option>
+      <option value="+507">Panamá +507</option>
+      <option value="+595">Paraguay +595</option>
+      <option value="+51">Perú +51</option>
+      <option value="+44">Reino Unido +44</option>
+      <option value="+1">Estados Unidos +1</option>
+      <option value="+598">Uruguay +598</option>
+      <option value="+58">Venezuela +58</option>
+    </select>
 
-<div class="section-title">¿Por qué comprar en Zeta Store?</div>
-<div class="cards">
-<div class="card"><h3>⚡ Entrega instantánea</h3><p>Recibe tus productos digitales inmediatamente después de la compra.</p></div>
-<div class="card"><h3>🔒 Pagos seguros</h3><p>Plataforma protegida y verificada con múltiples métodos de pago.</p></div>
-<div class="card"><h3>🏆 Calidad garantizada</h3><p>Productos probados y verificados por nuestra comunidad gamer.</p></div>
-</div>
+    <input type="tel" id="phone" required>
 
-<div class="section-title">Actividad reciente</div>
-<div class="activity">
-<div class="activity-item">🟢 Usuario compró Cliente Premium hace 2 min</div>
-<div class="activity-item">🟢 Usuario adquirió Key VIP hace 5 min</div>
-<div class="activity-item">🟢 Nueva valoración ★★★★★ hace 10 min</div>
-</div>
+    <label>Contraseña</label>
+    <input type="password" id="password" required>
 
-</div>
+    <label>Confirmar Contraseña</label>
+    <input type="password" id="confirmPassword" required>
 
-<!-- TU SISTEMA PRODUCTOS -->
-<div class="productos-container" id="productosContainer">
-<h2>Productos disponibles</h2>
-<div class="filtros">
-<button>🎮 Todas las categorías</button>
-<input type="text" placeholder="¿Qué estás buscando?">
-</div>
+    <div class="terms-container">
+      <input type="checkbox" id="termsCheckbox" required>
+      <span>
+        Acepto los 
+        <a href="#">Términos y Condiciones</a> 
+        y la 
+        <a href="#">Política de Privacidad</a>
+      </span>
+    </div>
 
-<div class="productos-grid">
-<div class="producto">
-<img src="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg">
-<h3>Cliente de Goteo</h3>
-<p>Descripción breve del producto 1.</p>
-<button>Comprar</button>
-</div>
-<div class="producto">
-<img src="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg">
-<h3>Cliente de Goteo 2</h3>
-<p>Descripción breve del producto 2.</p>
-<button>Comprar</button>
-</div>
-<div class="producto">
-<img src="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg">
-<h3>Cliente de Goteo 3</h3>
-<p>Descripción breve del producto 3.</p>
-<button>Comprar</button>
-</div>
-</div>
+    <button type="submit" id="submitBtn">Crear Cuenta</button>
+    <p id="errorMsg" class="message"></p>
+  </form>
+
+  <div class="link">
+    ¿Ya tienes cuenta? <a href="index.html">Inicia sesión</a>
+  </div>
 </div>
 
 <script type="module">
-import { auth } from "./firebase.js";
-import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+import { auth, db } from "./firebase.js";
+import { createUserWithEmailAndPassword, sendEmailVerification, deleteUser } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-const menuBtn=document.getElementById('menuBtn');
-const sidebar=document.getElementById('sidebar');
-const usernameDisplay=document.getElementById('usernameDisplay');
-const emailDisplay=document.getElementById('emailDisplay');
-const logoutBtn=document.getElementById('logoutBtn');
-const comprarBtn=document.getElementById('comprarBtn');
-const productosContainer=document.getElementById('productosContainer');
-const inicioBtn=document.getElementById('inicioBtn');
+const form = document.getElementById('registerForm');
+const errorMsg = document.getElementById('errorMsg');
+const submitBtn = document.getElementById('submitBtn');
 
-menuBtn.addEventListener('click',e=>{
-e.stopPropagation();
-sidebar.classList.toggle('open');
+/* 🔥 DETECCIÓN AUTOMÁTICA DE PAÍS */
+fetch("https://ipapi.co/json/")
+.then(res => res.json())
+.then(data => {
+  const countryCode = data.country_calling_code;
+  if(countryCode){
+    document.getElementById("countryCode").value = countryCode;
+  }
+}).catch(()=>{});
+
+/* 🔥 TU LÓGICA ORIGINAL */
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Procesando...";
+
+  const username = document.getElementById('username').value.trim().toLowerCase();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const countryCode = document.getElementById('countryCode').value;
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+
+  if (password !== confirmPassword) return showError("⚔️ Las contraseñas no coinciden.");
+  if (password.length < 6) return showError("🔐 La contraseña debe tener mínimo 6 caracteres.");
+  if (username.length < 3) return showError("👤 El usuario debe tener al menos 3 caracteres.");
+
+  try {
+    const usernameRef = doc(db, "usernames", username);
+    const usernameSnap = await getDoc(usernameRef);
+
+    if (usernameSnap.exists()) return showError("⚡ Ese nombre de usuario ya está en uso.");
+
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    await setDoc(usernameRef, { uid: user.uid });
+    await setDoc(doc(db, "usuarios", user.uid), {
+      username,
+      email,
+      phone: countryCode + phone,
+      createdAt: new Date(),
+      role: "user"
+    });
+
+    await sendEmailVerification(user);
+
+    errorMsg.textContent = "📧 Revisa tu correo para verificar tu cuenta.";
+    errorMsg.className = "message success";
+
+    setTimeout(() => { window.location.href = "index.html"; }, 3000);
+
+  } catch (error) {
+    showError(error.message);
+  }
 });
 
-document.addEventListener('click',e=>{
-if(sidebar.classList.contains('open')&&!sidebar.contains(e.target)&&e.target!==menuBtn){
-sidebar.classList.remove('open');
+function showError(message) {
+  errorMsg.textContent = message;
+  errorMsg.className = "message error";
+  submitBtn.disabled = false;
+  submitBtn.textContent = "Crear Cuenta";
 }
-});
-
-onAuthStateChanged(auth,user=>{
-if(user){
-usernameDisplay.textContent=`¡Bienvenido, ${user.email.split('@')[0]}!`;
-emailDisplay.textContent=user.email;
-}else{
-window.location.href="index.html";
-}
-});
-
-logoutBtn.addEventListener('click',async()=>{
-await signOut(auth);
-window.location.href="index.html";
-});
-
-comprarBtn.addEventListener('click',e=>{
-e.preventDefault();
-productosContainer.classList.add('open');
-sidebar.classList.remove('open');
-});
-
-inicioBtn.addEventListener('click',e=>{
-e.preventDefault();
-productosContainer.classList.remove('open');
-sidebar.classList.remove('open');
-});
 </script>
 
 </body>
