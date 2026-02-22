@@ -410,50 +410,71 @@ Zeta Store
 import { auth } from "./firebase.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
-const menuBtn=document.getElementById('menuBtn');
-const sidebar=document.getElementById('sidebar');
-const usernameDisplay=document.getElementById('usernameDisplay');
-const emailDisplay=document.getElementById('emailDisplay');
-const logoutBtn=document.getElementById('logoutBtn');
-const comprarBtn=document.getElementById('comprarBtn');
-const productosContainer=document.getElementById('productosContainer');
-const inicioBtn=document.getElementById('inicioBtn');
+const menuBtn = document.getElementById('menuBtn');
+const sidebar = document.getElementById('sidebar');
+const usernameDisplay = document.getElementById('usernameDisplay');
+const emailDisplay = document.getElementById('emailDisplay');
+const logoutBtn = document.getElementById('logoutBtn');
+const comprarBtn = document.getElementById('comprarBtn');
+const productosContainer = document.getElementById('productosContainer');
+const inicioBtn = document.getElementById('inicioBtn');
 
-menuBtn.addEventListener('click',e=>{
-e.stopPropagation();
-sidebar.classList.toggle('open');
+/* ===== DETECTAR RUTA BASE REAL ===== */
+const BASE_PATH = window.location.pathname.includes("/dashboard")
+  ? window.location.pathname.replace("dashboard.html","")
+  : window.location.pathname;
+
+/* LOGIN URL REAL */
+const LOGIN_URL = BASE_PATH + "index.html";
+
+/* MENU */
+menuBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  sidebar.classList.toggle('open');
 });
 
-document.addEventListener('click',e=>{
-if(sidebar.classList.contains('open')&&!sidebar.contains(e.target)&&e.target!==menuBtn){
-sidebar.classList.remove('open');
-}
+document.addEventListener('click', e => {
+  if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && e.target !== menuBtn) {
+    sidebar.classList.remove('open');
+  }
 });
 
-onAuthStateChanged(auth,user=>{
-if(user){
-usernameDisplay.textContent=`¡Bienvenido, ${user.email.split('@')[0]}!`;
-emailDisplay.textContent=user.email;
-}else{
-window.location.href="login.html";
-}
+/* AUTH */
+onAuthStateChanged(auth, user => {
+  if (user) {
+    usernameDisplay.textContent = `¡Bienvenido, ${user.email.split('@')[0]}!`;
+    emailDisplay.textContent = user.email;
+  } else {
+    if (!window.location.href.includes("index.html")) {
+      window.location.replace(LOGIN_URL);
+    }
+  }
 });
 
-logoutBtn.addEventListener('click',async()=>{
-await signOut(auth);
-window.location.href="login.html";
+/* LOGOUT */
+logoutBtn.addEventListener('click', async (e) => {
+  e.preventDefault();
+  try {
+    await signOut(auth);
+    setTimeout(() => {
+      window.location.replace(LOGIN_URL);
+    }, 50);
+  } catch (error) {
+    console.error(error);
+  }
 });
 
-comprarBtn.addEventListener('click',e=>{
-e.preventDefault();
-productosContainer.classList.add('open');
-sidebar.classList.remove('open');
+/* NAV */
+comprarBtn.addEventListener('click', e => {
+  e.preventDefault();
+  productosContainer.classList.add('open');
+  sidebar.classList.remove('open');
 });
 
-inicioBtn.addEventListener('click',e=>{
-e.preventDefault();
-productosContainer.classList.remove('open');
-sidebar.classList.remove('open');
+inicioBtn.addEventListener('click', e => {
+  e.preventDefault();
+  productosContainer.classList.remove('open');
+  sidebar.classList.remove('open');
 });
 </script>
 
