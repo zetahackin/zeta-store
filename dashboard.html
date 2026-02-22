@@ -100,6 +100,79 @@
     font-weight: bold;
   }
 
+  /* Apartado comprar productos */
+  .productos-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10,10,20,0.97);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 80px 20px 20px 20px;
+    z-index: 2000;
+    overflow-y: auto;
+  }
+
+  .productos-container.open {
+    display: flex;
+  }
+
+  .productos-container h2 {
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff;
+    margin-bottom: 20px;
+  }
+
+  .producto {
+    background: rgba(30,30,50,0.9);
+    width: 90%;
+    max-width: 400px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #ff00ff, 0 0 25px #00ffff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .producto img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00ffff;
+  }
+
+  .producto h3 {
+    margin: 5px 0;
+    color: #ff00ff;
+  }
+
+  .producto p {
+    margin: 5px 0 10px 0;
+    color: #fff;
+  }
+
+  .producto button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #ff00ff, #00ffff);
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .producto button:hover {
+    transform: scale(1.05);
+  }
+
   @media (max-width: 480px) {
     .banner {
       font-size: 20px;
@@ -119,7 +192,8 @@
 </div>
 
 <div class="sidebar" id="sidebar">
-  <a href="#">Inicio</a>
+  <a href="#" id="inicioBtn">Inicio</a>
+  <a href="#" id="comprarBtn">Comprar productos</a>
   <a href="#">Perfil</a>
   <a href="#">Compras</a>
   <a href="#">Configuración</a>
@@ -133,7 +207,29 @@
   </div>
   <div class="content">
     <p>Tu dashboard gamer personalizado aquí...</p>
-    <!-- Aquí puedes añadir productos, estadísticas o tarjetas neon -->
+  </div>
+</div>
+
+<!-- Apartado productos -->
+<div class="productos-container" id="productosContainer">
+  <h2>Productos disponibles</h2>
+  <div class="producto">
+    <img src="https://via.placeholder.com/400x200.png?text=Producto+1" alt="Producto 1">
+    <h3>Producto 1</h3>
+    <p>Descripción breve del producto 1.</p>
+    <button>Comprar</button>
+  </div>
+  <div class="producto">
+    <img src="https://via.placeholder.com/400x200.png?text=Producto+2" alt="Producto 2">
+    <h3>Producto 2</h3>
+    <p>Descripción breve del producto 2.</p>
+    <button>Comprar</button>
+  </div>
+  <div class="producto">
+    <img src="https://via.placeholder.com/400x200.png?text=Producto+3" alt="Producto 3">
+    <h3>Producto 3</h3>
+    <p>Descripción breve del producto 3.</p>
+    <button>Comprar</button>
   </div>
 </div>
 
@@ -147,13 +243,16 @@
   const emailDisplay = document.getElementById('emailDisplay');
   const logoutBtn = document.getElementById('logoutBtn');
 
+  const comprarBtn = document.getElementById('comprarBtn');
+  const productosContainer = document.getElementById('productosContainer');
+  const inicioBtn = document.getElementById('inicioBtn');
+
   // Toggle sidebar
-  menuBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); // Evita que el click cierre inmediatamente
+  menuBtn.addEventListener('click', () => {
     sidebar.classList.toggle('open');
   });
 
-  // Cerrar sidebar al hacer click fuera
+  // Cerrar sidebar al click afuera
   document.addEventListener('click', (e) => {
     if(sidebar.classList.contains('open') && !sidebar.contains(e.target) && e.target !== menuBtn){
       sidebar.classList.remove('open');
@@ -166,15 +265,28 @@
       usernameDisplay.textContent = `¡Bienvenido, ${user.email.split('@')[0]}!`;
       emailDisplay.textContent = user.email;
     } else {
-      // Si no hay usuario, redirigir a login
-      window.location.href = "index.html";
+      window.location.href = "login.html";
     }
   });
 
   // Cerrar sesión
   logoutBtn.addEventListener('click', async () => {
     await signOut(auth);
-    window.location.href = "index.html";
+    window.location.href = "login.html";
+  });
+
+  // Abrir productos
+  comprarBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    productosContainer.classList.add('open');
+    sidebar.classList.remove('open'); // Cierra el menu automáticamente
+  });
+
+  // Volver a inicio
+  inicioBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    productosContainer.classList.remove('open');
+    sidebar.classList.remove('open');
   });
 </script>
 
