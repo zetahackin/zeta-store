@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +6,6 @@
 <title>Dashboard - Zeta Store</title>
 
 <style>
-/* ====== TU CSS ORIGINAL (SIN CAMBIOS) ====== */
 body{
   margin:0;
   font-family:'Orbitron',sans-serif;
@@ -45,7 +44,7 @@ body{
   cursor:pointer;
 }
 
-/* ===== NUEVO ICONO CARRITO ===== */
+/* ===== CARRITO BTN ===== */
 .cart-btn{
   position:absolute;
   right:18px;
@@ -56,6 +55,7 @@ body{
   font-size:24px;
   cursor:pointer;
 }
+
 .cart-count{
   position:absolute;
   top:-6px;
@@ -91,11 +91,13 @@ body{
   border-bottom:1px solid #00ffff44;
   color:#00ffff;
 }
+
 .cart-items{
   flex:1;
   overflow-y:auto;
   padding:10px;
 }
+
 .cart-item{
   background:rgba(30,30,50,.9);
   border-radius:8px;
@@ -105,43 +107,289 @@ body{
   gap:8px;
   align-items:center;
 }
+
 .cart-item img{
   width:50px;
   height:50px;
   object-fit:cover;
   border-radius:6px;
 }
+
 .cart-item-name{
   flex:1;
   font-size:12px;
 }
+
 .cart-remove{
   color:#ff00ff;
   cursor:pointer;
   font-size:14px;
 }
+
 .cart-footer{
   padding:12px;
   border-top:1px solid #00ffff44;
 }
+
 .cart-total{
   font-weight:bold;
   margin-bottom:8px;
 }
-.cart-buy{
-  width:100%;
-  padding:8px;
-  border:none;
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  position:fixed;
+  top:60px;
+  left:-250px;
+  width:250px;
+  height:100%;
+  background:rgba(20,20,40,0.97);
+  box-shadow:2px 0 20px #00ffff;
+  transition:left .3s;
+  padding-top:20px;
+  z-index:1050;
+  animation:zetaFadeLeft .4s ease;
+}
+.sidebar.open{left:0;}
+
+.sidebar a{
+  display:block;
+  color:#ff00ff;
+  text-decoration:none;
+  padding:14px 18px;
+  font-weight:bold;
+  transition:.2s;
+  font-size:14px;
+}
+.sidebar a:hover{
+  background:#00ffff;
+  color:#000;
+}
+
+/* ===== MAIN OPTIMIZADO ===== */
+.main{
+  padding:80px 16px 25px;
+  max-width:1200px;
+  margin:auto;
+}
+
+/* ===== USER INFO ===== */
+.user-info{
+  background:rgba(30,30,50,.9);
+  padding:16px;
+  border-radius:10px;
+  box-shadow:0 0 20px #ff00ff,0 0 30px #00ffff;
+  text-align:center;
+  margin-bottom:20px;
+  animation:zetaFadeUp .6s ease;
+}
+.user-info h2{
+  margin:0;
+  color:#00ffff;
+  text-shadow:0 0 10px #00ffff;
+  font-size:20px;
+}
+.user-info p{
+  color:#ff00ff;
+  font-weight:bold;
+  font-size:13px;
+}
+
+/* ===== STATS ===== */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:20px;
+}
+.stat-card{
+  background:rgba(20,20,40,.9);
+  padding:14px 10px;
+  border-radius:10px;
+  text-align:center;
+  box-shadow:0 0 12px #00ffff44;
+  transition:.25s;
+  animation:zetaFadeUp .7s ease;
+}
+.stat-card:hover{
+  transform:translateY(-4px) scale(1.03);
+  box-shadow:0 0 20px #00ffff,0 0 35px #ff00ff55;
+  animation:zetaGlow 1.8s infinite;
+}
+.stat-number{
+  font-size:20px;
+  color:#00ffff;
+  text-shadow:0 0 8px #00ffff;
+  font-weight:bold;
+}
+.stat-label{
+  color:#ff00ff;
+  margin-top:3px;
+  font-size:11px;
+}
+
+/* ===== TITULOS ===== */
+.section-title{
+  font-size:16px;
+  color:#00ffff;
+  text-shadow:0 0 6px #00ffff;
+  margin:18px 0 10px;
+  animation:zetaFadeLeft .6s ease;
+}
+
+/* ===== CARDS ===== */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.card{
+  background:rgba(30,30,50,.9);
+  padding:14px;
+  border-radius:10px;
+  box-shadow:0 0 12px #ff00ff44;
+  transition:.25s;
+  animation:zetaFadeUp .8s ease;
+}
+.card:hover{
+  transform:translateY(-6px) scale(1.02);
+  box-shadow:0 0 22px #ff00ff,0 0 35px #00ffff44;
+}
+.card h3{
+  margin:0 0 6px;
+  color:#ff00ff;
+  font-size:14px;
+}
+.card p{
+  font-size:12px;
+  color:#ddd;
+  line-height:1.3;
+}
+
+/* ===== ACTIVIDAD ===== */
+.activity-item{
+  background:rgba(20,20,40,.9);
+  padding:10px;
   border-radius:6px;
+  margin-bottom:8px;
+  font-size:12px;
+  box-shadow:0 0 8px #00ffff33;
+  animation:zetaFadeUp .9s ease;
+}
+
+/* ===== PRODUCTOS ===== */
+.productos-container{
+  position:fixed;
+  top:60px;
+  left:0;
+  width:100%;
+  height:calc(100% - 60px);
+  background:linear-gradient(135deg,#0a0a0f,#1f1f2e,#0a0a0f);
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  padding:20px;
+  z-index:1000;
+  overflow-y:auto;
+}
+.productos-container.open{display:flex;}
+
+.productos-container h2{
+  color:#00ffff;
+  text-shadow:0 0 10px #00ffff;
+}
+
+.filtros{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:20px;
+  width:100%;
+  max-width:900px;
+}
+
+.filtros button{
+  padding:8px 12px;
+  border:none;
+  border-radius:8px;
   background:linear-gradient(90deg,#ff00ff,#00ffff);
+  color:#000;
+  font-weight:bold;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.filtros input{
+  padding:8px;
+  border-radius:8px;
+  border:none;
+  width:200px;
+  font-size:14px;
+}
+
+.productos-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:15px;
+  width:100%;
+  max-width:900px;
+}
+
+.producto{
+  background:rgba(30,30,50,.9);
+  padding:15px;
+  border-radius:10px;
+  box-shadow:0 0 15px #ff00ff,0 0 20px #00ffff;
+  text-align:center;
+}
+
+.producto img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  border-radius:10px;
+  margin-bottom:10px;
+}
+
+.producto h3{color:#ff00ff;font-size:16px;margin:5px 0;}
+.producto p{font-size:14px;margin-bottom:10px;}
+
+.producto button{
+  padding:8px 16px;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(90deg,#ff00ff,#00ffff);
+  color:#000;
   font-weight:bold;
   cursor:pointer;
 }
 
-/* ===== RESTO TU CSS ORIGINAL ===== */
-/* (todo tu css existente permanece igual) */
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .cards{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:600px){
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .cards{grid-template-columns:1fr;}
+  .banner{font-size:18px;}
+}
 
-/* ... (NO TOCO NADA MÁS) ... */
+/* ===== KEYFRAMES ===== */
+@keyframes zetaFadeUp{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes zetaFadeLeft{
+  from{opacity:0;transform:translateX(-18px)}
+  to{opacity:1;transform:translateX(0)}
+}
+@keyframes zetaGlow{
+  0%{box-shadow:0 0 0px #00ffff}
+  50%{box-shadow:0 0 18px #00ffff}
+  100%{box-shadow:0 0 0px #00ffff}
+}
 </style>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
@@ -151,12 +399,7 @@ body{
 <div class="banner">
 <button class="menu-btn" id="menuBtn">☰</button>
 Zeta Store
-
-<!-- ICONO CARRITO -->
-<button class="cart-btn" id="cartBtn">
-🛒
-<span class="cart-count" id="cartCount">0</span>
-</button>
+<button class="cart-btn" id="cartBtn">🛒<span class="cart-count" id="cartCount">0</span></button>
 </div>
 
 <div class="sidebar" id="sidebar">
@@ -168,16 +411,6 @@ Zeta Store
 <a href="#" id="logoutBtn">Cerrar Sesión</a>
 </div>
 
-<!-- PANEL CARRITO -->
-<div class="cart-panel" id="cartPanel">
-<div class="cart-header">🛒 Tu carrito</div>
-<div class="cart-items" id="cartItems"></div>
-<div class="cart-footer">
-<div class="cart-total" id="cartTotal">Total: $0</div>
-<button class="cart-buy">Comprar ahora</button>
-</div>
-</div>
-
 <div class="main">
 
 <div class="user-info">
@@ -185,8 +418,26 @@ Zeta Store
 <p id="emailDisplay"></p>
 </div>
 
-<!-- TODO TU CONTENIDO ORIGINAL SIGUE IGUAL -->
-<!-- (NO SE ELIMINA NADA) -->
+<div class="stats">
+<div class="stat-card"><div class="stat-number">+1,284</div><div class="stat-label">Compradores satisfechos</div></div>
+<div class="stat-card"><div class="stat-number">+3,920</div><div class="stat-label">Productos vendidos</div></div>
+<div class="stat-card"><div class="stat-number">99.8%</div><div class="stat-label">Valoraciones positivas</div></div>
+<div class="stat-card"><div class="stat-number">24/7</div><div class="stat-label">Soporte activo</div></div>
+</div>
+
+<div class="section-title">¿Por qué comprar en Zeta Store?</div>
+<div class="cards">
+<div class="card"><h3>⚡ Entrega instantánea</h3><p>Recibe tus productos digitales inmediatamente después de la compra.</p></div>
+<div class="card"><h3>🔒 Pagos seguros</h3><p>Plataforma protegida y verificada con múltiples métodos de pago.</p></div>
+<div class="card"><h3>🏆 Calidad garantizada</h3><p>Productos probados y verificados por nuestra comunidad gamer.</p></div>
+</div>
+
+<div class="section-title">Actividad reciente</div>
+<div class="activity">
+<div class="activity-item">🟢 Usuario compró Cliente Premium hace 2 min</div>
+<div class="activity-item">🟢 Usuario adquirió Key VIP hace 5 min</div>
+<div class="activity-item">🟢 Nueva valoración ★★★★★ hace 10 min</div>
+</div>
 
 </div>
 
@@ -199,28 +450,35 @@ Zeta Store
 </div>
 
 <div class="productos-grid">
-
 <div class="producto">
 <img src="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg">
 <h3>Cliente de Goteo</h3>
 <p>Descripción breve del producto 1.</p>
-<button class="add-cart">Agregar</button>
+<button class="add-cart">Comprar</button>
 </div>
 
 <div class="producto">
 <img src="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg">
 <h3>Cliente de Goteo 2</h3>
 <p>Descripción breve del producto 2.</p>
-<button class="add-cart">Agregar</button>
+<button class="add-cart">Comprar</button>
 </div>
 
 <div class="producto">
 <img src="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg">
 <h3>Cliente de Goteo 3</h3>
 <p>Descripción breve del producto 3.</p>
-<button class="add-cart">Agregar</button>
+<button class="add-cart">Comprar</button>
+</div>
+</div>
 </div>
 
+<!-- PANEL CARRITO -->
+<div class="cart-panel" id="cartPanel">
+<div class="cart-header">🛒 Tu carrito</div>
+<div class="cart-items" id="cartItems"></div>
+<div class="cart-footer">
+<div class="cart-total" id="cartTotal">Total: $0</div>
 </div>
 </div>
 
@@ -236,6 +494,55 @@ const logoutBtn = document.getElementById('logoutBtn');
 const comprarBtn = document.getElementById('comprarBtn');
 const productosContainer = document.getElementById('productosContainer');
 const inicioBtn = document.getElementById('inicioBtn');
+
+/* BASE PATH */
+const BASE_PATH = window.location.pathname.includes("/dashboard")
+  ? window.location.pathname.replace("dashboard.html","")
+  : window.location.pathname;
+
+const LOGIN_URL = BASE_PATH + "index.html";
+
+/* MENU */
+menuBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  sidebar.classList.toggle('open');
+});
+
+document.addEventListener('click', e => {
+  if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && e.target !== menuBtn) {
+    sidebar.classList.remove('open');
+  }
+});
+
+/* AUTH */
+onAuthStateChanged(auth, user => {
+  if (user) {
+    usernameDisplay.textContent = `¡Bienvenido, ${user.email.split('@')[0]}!`;
+    emailDisplay.textContent = user.email;
+  } else {
+    window.location.replace(LOGIN_URL);
+  }
+});
+
+/* LOGOUT */
+logoutBtn.addEventListener('click', async (e) => {
+  e.preventDefault();
+  await signOut(auth);
+  window.location.replace(LOGIN_URL);
+});
+
+/* NAV */
+comprarBtn.addEventListener('click', e => {
+  e.preventDefault();
+  productosContainer.classList.add('open');
+  sidebar.classList.remove('open');
+});
+
+inicioBtn.addEventListener('click', e => {
+  e.preventDefault();
+  productosContainer.classList.remove('open');
+  sidebar.classList.remove('open');
+});
 
 /* ===== CARRITO ===== */
 const cartBtn = document.getElementById('cartBtn');
@@ -253,8 +560,7 @@ function renderCart(){
   let total=0;
 
   cart.forEach((item,i)=>{
-    total+=item.price||10;
-
+    total+=10;
     const el=document.createElement('div');
     el.className="cart-item";
     el.innerHTML=`
@@ -269,82 +575,24 @@ function renderCart(){
   cartTotal.textContent="Total: $"+total;
 }
 
-/* AGREGAR AL CARRITO */
 document.querySelectorAll('.add-cart').forEach(btn=>{
   btn.addEventListener('click',()=>{
     const card=btn.closest('.producto');
     const name=card.querySelector('h3').textContent;
     const img=card.querySelector('img').src;
-
-    cart.push({name,img,price:10});
+    cart.push({name,img});
     renderCart();
-
-    btn.textContent="✔ Agregado";
-    setTimeout(()=>btn.textContent="Agregar",1000);
   });
 });
 
-/* ELIMINAR */
 cartItemsEl.addEventListener('click',e=>{
   if(e.target.classList.contains('cart-remove')){
     cart.splice(e.target.dataset.i,1);
     renderCart();
   }
 });
-
-/* ===== TU SCRIPT ORIGINAL ===== */
-const BASE_PATH = window.location.pathname.includes("/dashboard")
-  ? window.location.pathname.replace("dashboard.html","")
-  : window.location.pathname;
-
-const LOGIN_URL = BASE_PATH + "index.html";
-
-menuBtn.addEventListener('click', e => {
-  e.stopPropagation();
-  sidebar.classList.toggle('open');
-});
-
-document.addEventListener('click', e => {
-  if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && e.target !== menuBtn) {
-    sidebar.classList.remove('open');
-  }
-});
-
-onAuthStateChanged(auth, user => {
-  if (user) {
-    usernameDisplay.textContent = `¡Bienvenido, ${user.email.split('@')[0]}!`;
-    emailDisplay.textContent = user.email;
-  } else {
-    if (!window.location.href.includes("index.html")) {
-      window.location.replace(LOGIN_URL);
-    }
-  }
-});
-
-logoutBtn.addEventListener('click', async (e) => {
-  e.preventDefault();
-  try {
-    await signOut(auth);
-    setTimeout(() => {
-      window.location.replace(LOGIN_URL);
-    }, 50);
-  } catch (error) {
-    console.error(error);
-  }
-});
-
-comprarBtn.addEventListener('click', e => {
-  e.preventDefault();
-  productosContainer.classList.add('open');
-  sidebar.classList.remove('open');
-});
-
-inicioBtn.addEventListener('click', e => {
-  e.preventDefault();
-  productosContainer.classList.remove('open');
-  sidebar.classList.remove('open');
-});
 </script>
 
 </body>
 </html>
+
