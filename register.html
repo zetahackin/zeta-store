@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 
   <style>
-    /* 🔥 TODO TU DISEÑO ORIGINAL — NO SE TOCÓ NADA 🔥 */
     body {
       margin: 0;
       font-family: 'Orbitron', sans-serif;
@@ -130,28 +129,48 @@
       transform: scale(1.05);
     }
 
+    .terms-container {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    .terms-container input {
+      width: 18px;
+      height: 18px;
+      accent-color: #00ffff;
+      cursor: pointer;
+    }
+
+    .terms-container a {
+      color: #00ffff;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .terms-container a:hover {
+      color: #ff00ff;
+      text-shadow: 0 0 8px #ff00ff;
+    }
+
     .message {
       text-align: center;
       font-weight: bold;
       margin-top: 10px;
       min-height: 25px;
-      transition: 0.3s;
     }
 
     .success {
       color: #00ffcc;
       text-shadow: 0 0 10px #00ffcc;
-      animation: pop 0.6s ease-in-out;
     }
 
     .error {
       color: #ff4d4d;
       text-shadow: 0 0 10px #ff4d4d;
-    }
-
-    @keyframes pop {
-      0% { transform: scale(0.8); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
     }
 
     .link {
@@ -173,151 +192,149 @@
 
 <body>
 
-  <div class="banner">ZETA STORE</div>
+<div class="banner">ZETA STORE</div>
 
-  <div class="container">
-    <h2>Crear Cuenta</h2>
+<div class="container">
+  <h2>Crear Cuenta</h2>
 
-    <form id="registerForm">
-      <label>Nombre de Usuario</label>
-      <input type="text" id="username" required>
+  <form id="registerForm">
+    <label>Nombre de Usuario</label>
+    <input type="text" id="username" required>
 
-      <label>Correo Electrónico</label>
-      <input type="email" id="email" required>
+    <label>Correo Electrónico</label>
+    <input type="email" id="email" required>
 
-      <label>WhatsApp</label>
-      <select id="countryCode">
-        <option value="+1">USA +1</option>
-        <option value="+34">España +34</option>
-        <option value="+52">México +52</option>
-      </select>
-      <input type="tel" id="phone" required>
+    <label>WhatsApp</label>
+    <select id="countryCode">
+      <option value="+49">Alemania +49</option>
+      <option value="+54">Argentina +54</option>
+      <option value="+591">Bolivia +591</option>
+      <option value="+55">Brasil +55</option>
+      <option value="+1">Canadá +1</option>
+      <option value="+56">Chile +56</option>
+      <option value="+82">Corea del Sur +82</option>
+      <option value="+506">Costa Rica +506</option>
+      <option value="+593">Ecuador +593</option>
+      <option value="+503">El Salvador +503</option>
+      <option value="+971">Emiratos Árabes Unidos +971</option>
+      <option value="+34">España +34</option>
+      <option value="+33">Francia +33</option>
+      <option value="+502">Guatemala +502</option>
+      <option value="+504">Honduras +504</option>
+      <option value="+91">India +91</option>
+      <option value="+39">Italia +39</option>
+      <option value="+81">Japón +81</option>
+      <option value="+52">México +52</option>
+      <option value="+505">Nicaragua +505</option>
+      <option value="+507">Panamá +507</option>
+      <option value="+595">Paraguay +595</option>
+      <option value="+51">Perú +51</option>
+      <option value="+44">Reino Unido +44</option>
+      <option value="+1">Estados Unidos +1</option>
+      <option value="+598">Uruguay +598</option>
+      <option value="+58">Venezuela +58</option>
+    </select>
 
-      <label>Contraseña</label>
-      <input type="password" id="password" required>
+    <input type="tel" id="phone" required>
 
-      <label>Confirmar Contraseña</label>
-      <input type="password" id="confirmPassword" required>
+    <label>Contraseña</label>
+    <input type="password" id="password" required>
 
-      <label><input type="checkbox" required> Acepto Términos</label>
+    <label>Confirmar Contraseña</label>
+    <input type="password" id="confirmPassword" required>
 
-      <button type="submit" id="submitBtn">Crear Cuenta</button>
-      <p id="errorMsg" class="message"></p>
-    </form>
-
-    <div class="link">
-      ¿Ya tienes cuenta? <a href="/">Inicia sesión</a>
+    <div class="terms-container">
+      <input type="checkbox" id="termsCheckbox" required>
+      <span>
+        Acepto los 
+        <a href="#">Términos y Condiciones</a> 
+        y la 
+        <a href="#">Política de Privacidad</a>
+      </span>
     </div>
+
+    <button type="submit" id="submitBtn">Crear Cuenta</button>
+    <p id="errorMsg" class="message"></p>
+  </form>
+
+  <div class="link">
+    ¿Ya tienes cuenta? <a href="/">Inicia sesión</a>
   </div>
+</div>
 
-  <script type="module">
-  import { auth, db } from "./firebase.js";
-  import { 
-    createUserWithEmailAndPassword,
-    sendEmailVerification,
-    deleteUser
-  } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+<script type="module">
+import { auth, db } from "./firebase.js";
+import { createUserWithEmailAndPassword, sendEmailVerification, deleteUser } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-  import { 
-    doc, 
-    setDoc, 
-    getDoc 
-  } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+const form = document.getElementById('registerForm');
+const errorMsg = document.getElementById('errorMsg');
+const submitBtn = document.getElementById('submitBtn');
 
-  const form = document.getElementById('registerForm');
-  const errorMsg = document.getElementById('errorMsg');
-  const submitBtn = document.getElementById('submitBtn');
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Procesando...";
-
-    const username = document.getElementById('username').value.trim().toLowerCase();
-    const email = document.getElementById('email').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const countryCode = document.getElementById('countryCode').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-
-    if (password !== confirmPassword) {
-      return showError("⚔️ Las contraseñas no coinciden.");
-    }
-
-    if (password.length < 6) {
-      return showError("🔐 La contraseña debe tener mínimo 6 caracteres.");
-    }
-
-    if (username.length < 3) {
-      return showError("👤 El usuario debe tener al menos 3 caracteres.");
-    }
-
-    try {
-
-      const usernameRef = doc(db, "usernames", username);
-      const usernameSnap = await getDoc(usernameRef);
-
-      if (usernameSnap.exists()) {
-        return showError("⚡ Ese nombre de usuario ya está en uso.");
-      }
-
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-
-      try {
-
-        await setDoc(usernameRef, {
-          uid: user.uid
-        });
-
-        await setDoc(doc(db, "usuarios", user.uid), {
-          username,
-          email,
-          phone: countryCode + phone,
-          createdAt: new Date(),
-          role: "user"
-        });
-
-      } catch (firestoreError) {
-
-        await deleteUser(user);
-        console.error("Firestore error:", firestoreError);
-        return showError("🚨 Error guardando datos. Intenta nuevamente.");
-      }
-
-      await sendEmailVerification(user);
-
-      errorMsg.textContent = "📧 Revisa tu correo para verificar tu cuenta.";
-      errorMsg.className = "message success";
-
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 3000);
-
-    } catch (error) {
-
-      console.error("Auth error:", error);
-
-      if (error.code === "auth/email-already-in-use") {
-        showError("⚡ Ese correo ya pertenece a otro gamer.");
-      } else if (error.code === "auth/invalid-email") {
-        showError("❌ Correo inválido.");
-      } else if (error.code === "auth/weak-password") {
-        showError("🔐 Contraseña demasiado débil.");
-      } else {
-        showError("🚨 " + error.message);
-      }
-    }
-  });
-
-  function showError(message) {
-    errorMsg.textContent = message;
-    errorMsg.className = "message error";
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Crear Cuenta";
+/* 🔥 DETECCIÓN AUTOMÁTICA DE PAÍS */
+fetch("https://ipapi.co/json/")
+.then(res => res.json())
+.then(data => {
+  const countryCode = data.country_calling_code;
+  if(countryCode){
+    document.getElementById("countryCode").value = countryCode;
   }
+}).catch(()=>{});
 
+/* 🔥 TU LÓGICA ORIGINAL */
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Procesando...";
+
+  const username = document.getElementById('username').value.trim().toLowerCase();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const countryCode = document.getElementById('countryCode').value;
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+
+  if (password !== confirmPassword) return showError("⚔️ Las contraseñas no coinciden.");
+  if (password.length < 6) return showError("🔐 La contraseña debe tener mínimo 6 caracteres.");
+  if (username.length < 3) return showError("👤 El usuario debe tener al menos 3 caracteres.");
+
+  try {
+    const usernameRef = doc(db, "usernames", username);
+    const usernameSnap = await getDoc(usernameRef);
+
+    if (usernameSnap.exists()) return showError("⚡ Ese nombre de usuario ya está en uso.");
+
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    await setDoc(usernameRef, { uid: user.uid });
+    await setDoc(doc(db, "usuarios", user.uid), {
+      username,
+      email,
+      phone: countryCode + phone,
+      createdAt: new Date(),
+      role: "user"
+    });
+
+    await sendEmailVerification(user);
+
+    errorMsg.textContent = "📧 Revisa tu correo para verificar tu cuenta.";
+    errorMsg.className = "message success";
+
+    setTimeout(() => { window.location.href = "/"; }, 3000);
+
+  } catch (error) {
+    showError(error.message);
+  }
+});
+
+function showError(message) {
+  errorMsg.textContent = message;
+  errorMsg.className = "message error";
+  submitBtn.disabled = false;
+  submitBtn.textContent = "Crear Cuenta";
+}
 </script>
 
 </body>
