@@ -22,24 +22,25 @@
     width: 100%;
     height: 60px;
     background: linear-gradient(90deg, #ff00ff, #00ffff);
-    color: #000;
     display: flex;
     align-items: center;
-    padding: 0 20px;
+    justify-content: center;
     font-size: 24px;
     font-weight: bold;
     text-shadow: 0 0 10px #fff, 0 0 15px #00ffff;
     z-index: 1000;
   }
 
-  /* Botón hamburguesa */
-  .menu-btn {
+  .banner .menu-btn {
+    position: absolute;
+    left: 20px;
+    top: 15px;
     background: none;
     border: none;
     color: #fff;
     font-size: 28px;
     cursor: pointer;
-    margin-right: 20px;
+    z-index: 1100;
   }
 
   /* Sidebar */
@@ -51,9 +52,9 @@
     height: 100%;
     background: rgba(20,20,40,0.97);
     box-shadow: 2px 0 20px #00ffff;
-    transition: 0.3s;
+    transition: left 0.3s ease-in-out;
     padding-top: 20px;
-    z-index: 999;
+    z-index: 1050;
   }
 
   .sidebar.open {
@@ -100,20 +101,20 @@
     font-weight: bold;
   }
 
-  /* Apartado comprar productos */
+  /* Apartado productos */
   .productos-container {
     position: fixed;
-    top: 0;
+    top: 60px;
     left: 0;
     width: 100%;
-    height: 100%;
-    background: rgba(10,10,20,0.97);
+    height: calc(100% - 60px);
+    background: linear-gradient(135deg, #0a0a0f, #1f1f2e, #0a0a0f);
     display: none;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding: 80px 20px 20px 20px;
-    z-index: 2000;
+    padding: 20px;
+    z-index: 1000;
     overflow-y: auto;
   }
 
@@ -124,17 +125,61 @@
   .productos-container h2 {
     color: #00ffff;
     text-shadow: 0 0 10px #00ffff;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  /* Filtros */
+  .filtros {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
     margin-bottom: 20px;
+    width: 100%;
+    max-width: 900px;
+  }
+
+  .filtros button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #ff00ff, #00ffff);
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .filtros button:hover {
+    transform: scale(1.05);
+  }
+
+  .filtros input {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    width: 200px;
+    max-width: 100%;
+    outline: none;
+  }
+
+  /* Grid productos 2 por fila */
+  .productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    width: 100%;
+    max-width: 900px;
+    justify-items: center;
   }
 
   .producto {
     background: rgba(30,30,50,0.9);
-    width: 90%;
-    max-width: 400px;
+    width: 100%;
     padding: 15px;
-    margin-bottom: 15px;
     border-radius: 10px;
-    box-shadow: 0 0 15px #ff00ff, 0 0 25px #00ffff;
+    box-shadow: 0 0 20px #ff00ff, 0 0 25px #00ffff;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -173,6 +218,19 @@
     transform: scale(1.05);
   }
 
+  @media (max-width: 768px) {
+    .productos-grid {
+      grid-template-columns: 1fr;
+    }
+    .filtros {
+      flex-direction: column;
+      align-items: center;
+    }
+    .filtros input {
+      width: 90%;
+    }
+  }
+
   @media (max-width: 480px) {
     .banner {
       font-size: 20px;
@@ -181,6 +239,7 @@
       width: 200px;
     }
   }
+
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -213,23 +272,33 @@
 <!-- Apartado productos -->
 <div class="productos-container" id="productosContainer">
   <h2>Productos disponibles</h2>
-  <div class="producto">
-    <img src="https://via.placeholder.com/400x200.png?text=Producto+1" alt="Producto 1">
-    <h3>Producto 1</h3>
-    <p>Descripción breve del producto 1.</p>
-    <button>Comprar</button>
+
+  <!-- Filtros -->
+  <div class="filtros">
+    <button>🎮 Todas las categorías</button>
+    <input type="text" placeholder="¿Qué estás buscando?">
   </div>
-  <div class="producto">
-    <img src="https://via.placeholder.com/400x200.png?text=Producto+2" alt="Producto 2">
-    <h3>Producto 2</h3>
-    <p>Descripción breve del producto 2.</p>
-    <button>Comprar</button>
-  </div>
-  <div class="producto">
-    <img src="https://via.placeholder.com/400x200.png?text=Producto+3" alt="Producto 3">
-    <h3>Producto 3</h3>
-    <p>Descripción breve del producto 3.</p>
-    <button>Comprar</button>
+
+  <!-- Grid productos -->
+  <div class="productos-grid">
+    <div class="producto">
+      <img src="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg" alt="Cliente de Goteo">
+      <h3>Cliente de Goteo</h3>
+      <p>Descripción breve del producto 1.</p>
+      <button>Comprar</button>
+    </div>
+    <div class="producto">
+      <img src="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg" alt="Cliente de Goteo 2">
+      <h3>Cliente de Goteo 2</h3>
+      <p>Descripción breve del producto 2.</p>
+      <button>Comprar</button>
+    </div>
+    <div class="producto">
+      <img src="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg" alt="Cliente de Goteo 3">
+      <h3>Cliente de Goteo 3</h3>
+      <p>Descripción breve del producto 3.</p>
+      <button>Comprar</button>
+    </div>
   </div>
 </div>
 
@@ -248,7 +317,8 @@
   const inicioBtn = document.getElementById('inicioBtn');
 
   // Toggle sidebar
-  menuBtn.addEventListener('click', () => {
+  menuBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
     sidebar.classList.toggle('open');
   });
 
@@ -279,7 +349,7 @@
   comprarBtn.addEventListener('click', (e) => {
     e.preventDefault();
     productosContainer.classList.add('open');
-    sidebar.classList.remove('open'); // Cierra el menu automáticamente
+    sidebar.classList.remove('open');
   });
 
   // Volver a inicio
