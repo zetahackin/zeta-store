@@ -276,6 +276,32 @@
   font-size:13px;
 }
 
+/* ===== BOTON VER PRODUCTOS ===== */
+.ver-productos-container{
+  display:flex;
+  justify-content:center;
+  margin:18px 0 25px;
+  animation:zetaFadeUp .8s ease;
+}
+
+.ver-productos-btn{
+  padding:12px 28px;
+  font-size:14px;
+  font-weight:bold;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(90deg,#00ffff,#ff00ff);
+  color:#000;
+  cursor:pointer;
+  transition:.3s;
+  box-shadow:0 0 12px #00ffff55;
+  letter-spacing:1px;
+}
+.ver-productos-btn:hover{
+  transform:scale(1.08);
+  box-shadow:0 0 25px #00ffff,0 0 35px #ff00ff;
+}
+
 /* ===== STATS ===== */
 .stats{
   display:grid;
@@ -593,6 +619,12 @@ Zeta Store
 <p id="emailDisplay"></p>
 </div>
 
+<div class="ver-productos-container">
+  <button class="ver-productos-btn" id="verProductosBtn">
+    🚀 VER PRODUCTOS
+  </button>
+</div>
+
 <div class="stats">
 <div class="stat-card"><div class="stat-number">+1,284</div><div class="stat-label">Compradores satisfechos</div></div>
 <div class="stat-card"><div class="stat-number">+3,920</div><div class="stat-label">Productos vendidos</div></div>
@@ -710,6 +742,7 @@ const usernameDisplay = document.getElementById('usernameDisplay');
 const emailDisplay = document.getElementById('emailDisplay');
 const logoutBtn = document.getElementById('logoutBtn');
 const comprarBtn = document.getElementById('comprarBtn');
+const verProductosBtn = document.getElementById('verProductosBtn');
 const productosContainer = document.getElementById('productosContainer');
 const inicioBtn = document.getElementById('inicioBtn');
 
@@ -755,6 +788,14 @@ comprarBtn.addEventListener('click', e => {
   productosContainer.classList.add('open');
   sidebar.classList.remove('open');
 });
+
+if(verProductosBtn){
+  verProductosBtn.addEventListener('click', () => {
+    productosContainer.classList.add('open');
+    sidebar.classList.remove('open');
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+}
 
 inicioBtn.addEventListener('click', e => {
   e.preventDefault();
