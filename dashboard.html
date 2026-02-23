@@ -90,6 +90,7 @@
 
   body{
   margin:0;
+  padding:0;
   font-family:'Orbitron',sans-serif;
   background:linear-gradient(135deg,#0a0a0f,#1f1f2e,#0a0a0f);
   color:#fff;
@@ -390,21 +391,24 @@
 }
 
 /* ===== PRODUCTOS ===== */
-.productos-container{
-  position:fixed;
-  top:60px;
-  left:0;
+  .productos-container{
   width:100%;
-  height:calc(100% - 60px);
-  background:linear-gradient(135deg,#0a0a0f,#1f1f2e,#0a0a0f);
-  display:none;
-  flex-direction:column;
-  align-items:center;
-  padding:20px;
-  z-index:1000;
-  overflow-y:auto;
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 15px;
 }
-.productos-container.open{display:flex;}
+
+.productos-grid{
+  width:100%;
+}
+
+.productos-container{
+  display:none;
+}
+
+.productos-container.open{
+  display:block;
+}
 
 .productos-container h2{
   color:#00ffff;
@@ -595,6 +599,26 @@
   .cart-panel{
     width:100%;
   }
+}
+
+/* ====== ARREGLO ESPACIADO MOVIL ====== */
+
+*{
+  box-sizing:border-box;
+}
+
+.productos-container,
+.productos,
+.productos-grid,
+.container{
+  width:100%;
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 15px;
+}
+
+.producto{
+  margin-bottom:25px;
 }
 </style>
 
