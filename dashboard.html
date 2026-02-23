@@ -6,7 +6,89 @@
 <title>Dashboard - Zeta Store</title>
 
 <style>
-body{
+  .pago-container{
+  position:fixed;
+  top:60px;
+  left:0;
+  width:100%;
+  height:calc(100% - 60px);
+  background:linear-gradient(135deg,#0a0a0f,#1f1f2e,#0a0a0f);
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  padding:20px;
+  z-index:1300;
+}
+.pago-container.open{display:flex;}
+
+.paises-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  width:100%;
+  max-width:600px;
+}
+
+@media(max-width:600px){
+  .paises-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+.pais-card{
+  background:rgba(30,30,50,.9);
+  border-radius:12px;
+  padding:14px;
+  text-align:center;
+  cursor:pointer;
+  transition:.25s;
+  box-shadow:0 0 12px #00ffff44;
+}
+.pais-card:hover{
+  transform:translateY(-5px) scale(1.05);
+  box-shadow:0 0 25px #00ffff,0 0 40px #ff00ff55;
+}
+.pais-card.selected{
+  outline:2px solid #00ffff;
+  box-shadow:0 0 25px #00ffff,0 0 40px #ff00ff;
+  transform:scale(1.08);
+}
+.pais-card img{
+  width:60px;
+  height:40px;
+  border-radius:4px;
+  margin-bottom:8px;
+}
+
+.volver-btn{
+  margin-top:25px;
+  padding:10px 18px;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(90deg,#ff00ff,#00ffff);
+  color:#000;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+   .pay-btn{
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(90deg,#ff00ff,#00ffff);
+  font-weight:bold;
+  cursor:pointer;
+  color:#000;
+  margin-top:10px;
+  transition:.25s;
+}
+.pay-btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 12px #00ffff;
+}
+
+  body{
   margin:0;
   font-family:'Orbitron',sans-serif;
   background:linear-gradient(135deg,#0a0a0f,#1f1f2e,#0a0a0f);
@@ -470,10 +552,18 @@ body{
   from{opacity:0;transform:translateX(-18px)}
   to{opacity:1;transform:translateX(0)}
 }
+
 @keyframes zetaGlow{
   0%{box-shadow:0 0 0px #00ffff}
   50%{box-shadow:0 0 18px #00ffff}
   100%{box-shadow:0 0 0px #00ffff}
+}
+
+/* carrito full en movil */
+@media(max-width:600px){
+  .cart-panel{
+    width:100%;
+  }
 }
 </style>
 
@@ -591,7 +681,23 @@ Zeta Store
 <div class="cart-items" id="cartItems"></div>
 <div class="cart-footer">
 <div class="cart-total" id="cartTotal">Total: $0</div>
+<button class="pay-btn" id="payBtn">PAGAR</button>
 </div>
+</div>
+
+<div class="pago-container" id="pagoContainer">
+  <h2>Elegir país de pago</h2>
+
+  <div class="paises-grid">
+  <div class="pais-card"><img src="https://flagcdn.com/w80/ar.png"><span>Argentina</span></div>
+  <div class="pais-card"><img src="https://flagcdn.com/w80/bo.png"><span>Bolivia</span></div>
+  <div class="pais-card"><img src="https://flagcdn.com/w80/br.png"><span>Brasil</span></div>
+  <div class="pais-card"><img src="https://flagcdn.com/w80/cl.png"><span>Chile</span></div>
+  <div class="pais-card"><img src="https://flagcdn.com/w80/mx.png"><span>México</span></div>
+  <div class="pais-card"><img src="https://flagcdn.com/w80/us.png"><span>Estados Unidos</span></div>
+</div>
+
+  <button class="volver-btn" id="volverCarrito">Volver al carrito</button>
 </div>
 
 <script type="module">
@@ -662,6 +768,9 @@ const cartPanel = document.getElementById('cartPanel');
 const cartItemsEl = document.getElementById('cartItems');
 const cartCount = document.getElementById('cartCount');
 const cartTotal = document.getElementById('cartTotal');
+const payBtn = document.getElementById('payBtn');
+const pagoContainer = document.getElementById('pagoContainer');
+const volverCarrito = document.getElementById('volverCarrito');
 
 let cart = [];
 
@@ -705,7 +814,29 @@ cartItemsEl.addEventListener('click',e=>{
     renderCart();
   }
 });
-</script>
 
+if(payBtn && pagoContainer && cartPanel){
+
+  payBtn.addEventListener("click", () => {
+    if(cart.length===0) return;
+    cartPanel.classList.remove('open');
+    pagoContainer.classList.add('open');
+  });
+
+  volverCarrito.addEventListener("click", () => {
+    pagoContainer.classList.remove('open');
+    cartPanel.classList.add('open');
+  });
+
+}
+
+/* SELECCION PAIS */
+document.querySelectorAll('.pais-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    document.querySelectorAll('.pais-card').forEach(c=>c.classList.remove('selected'));
+    card.classList.add('selected');
+  });
+});
+</script>
 </body>
 </html>
