@@ -870,21 +870,21 @@ logoutBtn.addEventListener('click', async (e) => {
   window.location.replace(LOGIN_URL);
 });
 
-/* NAV */
-comprarBtn.addEventListener('click', e => {
-  e.preventDefault();
-  productosContainer.classList.add('open');
-  sidebar.classList.remove('open');
-});
-
+// BOTON VER PRODUCTOS (CENTRAL)
 if(verProductosBtn){
-  verProductosBtn.addEventListener('click', () => {
-    productosContainer.classList.add('open');
-    sidebar.classList.remove('open');
-    window.scrollTo({top:0,behavior:"smooth"});
+  verProductosBtn.addEventListener('click', e => {
+    e.preventDefault();
+    window.location.href = "productos.html";
   });
 }
 
+// BOTON SIDEBAR
+comprarBtn.addEventListener('click', e => {
+  e.preventDefault();
+  window.location.href = "productos.html";
+});
+
+// INICIO
 inicioBtn.addEventListener('click', e => {
   e.preventDefault();
   productosContainer.classList.remove('open');
@@ -968,4 +968,4 @@ document.querySelectorAll('.pais-card').forEach(card=>{
 });
 </script>
 </body>
-</html>
+</html>    
