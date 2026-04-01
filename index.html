@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Iniciar Sesión - Zeta Store</title>
+<title>Iniciar Sesión - Piero Hacks</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
   .password-wrapper {
@@ -286,14 +286,83 @@
   0% { transform: translateY(0); }
   100% { transform: translateY(-100px); }
 }
+
+#pantallaMantenimiento{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+
+background:
+radial-gradient(circle at 20% 20%, #00ffff22, transparent 40%),
+radial-gradient(circle at 80% 80%, #ff00ff22, transparent 40%),
+#050507;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+z-index:9999;
+font-family:'Orbitron',sans-serif;
+}
+
+.mantenimiento-box{
+padding:50px;
+border-radius:25px;
+background:linear-gradient(145deg,#06060f,#0b0b12);
+
+box-shadow:
+0 0 40px #00ffff55,
+0 0 80px #ff00ff33,
+inset 0 0 30px #00ffff22;
+
+text-align:center;
+max-width:400px;
+}
+
+.mantenimiento-box h1{
+font-size:38px;
+font-weight:900;
+color:#00ffff;
+text-shadow:
+0 0 20px #00ffff,
+0 0 40px #00ff88;
+}
+
+.mantenimiento-box p{
+color:#aaa;
+margin-top:10px;
+}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <div id="loaderMantenimiento" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#050507;
+z-index:99999;
+display:flex;
+align-items:center;
+justify-content:center;
+font-family:Orbitron;
+color:#00ff88;
+">
+Cargando sistema...
+</div>
+
+  <div id="pantallaMantenimiento" style="display:none;"></div>
+
+  <div id="mantenimientoScreen"></div>
+
 <div class="background-grid"></div>
 <div class="particles"></div>
 
-<div class="banner">Zeta Store</div>
+<div class="banner">Piero Hacks</div>
 
 <div class="container">
   <h2>Iniciar Sesión</h2>
@@ -341,34 +410,171 @@ togglePassword.addEventListener("click", () => {
   togglePassword.classList.toggle("fa-eye-slash");
 });
 </script>
-<script type="module">
-import { auth } from "./firebase.js";
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
-const form = document.getElementById("loginForm");
-const errorMsg = document.getElementById("errorMsg");
+<script type="module?v>
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault(); // 🔥 ESTO EVITA QUE SE BORRE TODO
+console.log("🔥 SISTEMA INICIADO");
 
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
+import { db } from "./firebase.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+const loader = document.getElementById("loaderMantenimiento");
 
-    errorMsg.textContent = "✅ Bienvenido bro 🔥";
-    errorMsg.className = "message success";
+// 🔥 DISEÑO PRO
+function mostrarMantenimiento() {
+  document.body.innerHTML = "<h1 style='color:red'>FUNCION NUEVA</h1>";
+}
+  <div style="
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  font-family:Orbitron, sans-serif;
+  background:#050507;
+  ">
 
-    setTimeout(() => {
-      window.location.href = "dashboard.html"; // o donde quieras redirigir
-    }, 1500);
+    <!-- 🔥 FONDO ANIMADO -->
+    <div style="
+    position:absolute;
+    width:200%;
+    height:200%;
+    background:
+    radial-gradient(circle, #00ffff22 1px, transparent 1px),
+    radial-gradient(circle, #00ff8822 1px, transparent 1px);
+    background-size: 80px 80px;
+    animation: moverFondo 20s linear infinite;
+    "></div>
 
-  } catch (error) {
-    errorMsg.textContent = "❌ Correo o contraseña incorrectos";
-    errorMsg.className = "message error";
+    <!-- 🔥 CAJA PRINCIPAL -->
+    <div style="
+    position:relative;
+    padding:60px 40px;
+    border-radius:25px;
+    text-align:center;
+    max-width:420px;
+    z-index:2;
+
+    background:rgba(10,10,20,0.9);
+    border:1px solid #00ff88;
+
+    box-shadow:
+    0 0 25px #00ff88,
+    0 0 60px #00ffff55,
+    inset 0 0 20px #00ff8822;
+    ">
+
+      <!-- ICONO -->
+      <div style="
+      font-size:70px;
+      margin-bottom:20px;
+      animation:pulse 1.5s infinite alternate;
+      ">🚧</div>
+
+      <!-- TITULO -->
+      <h1 style="
+      font-size:32px;
+      font-weight:900;
+      margin:0;
+
+      background:linear-gradient(90deg,#00ff88,#00ffff);
+      -webkit-background-clip:text;
+      color:transparent;
+
+      text-shadow:0 0 20px #00ff88;
+      ">
+      ESTAMOS EN MANTENIMIENTO
+      </h1>
+
+      <!-- TEXTO -->
+      <p style="
+      margin-top:15px;
+      color:#aaa;
+      font-size:15px;
+      ">
+      Esperenos un momentico 🚀
+      </p>
+
+      <!-- LINEA ANIMADA -->
+      <div style="
+      margin-top:25px;
+      height:4px;
+      width:100%;
+      border-radius:10px;
+      overflow:hidden;
+      background:#111;
+      ">
+        <div style="
+        height:100%;
+        width:40%;
+        background:linear-gradient(90deg,#00ff88,#00ffff);
+        animation:barra 2s linear infinite;
+        "></div>
+      </div>
+
+      <!-- TEXTO BLOQUEO -->
+      <p style="
+      margin-top:15px;
+      font-size:12px;
+      color:#00ff88;
+      ">
+      🔒 Acceso temporalmente deshabilitado
+      </p>
+
+    </div>
+
+    <!-- 🔥 ANIMACIONES -->
+    <style>
+    @keyframes pulse {
+      from { transform: scale(1); opacity:0.7; }
+      to { transform: scale(1.2); opacity:1; }
+    }
+
+    @keyframes moverFondo {
+      from { transform: translate(0,0); }
+      to { transform: translate(-80px,-80px); }
+    }
+
+    @keyframes barra {
+      0% { margin-left:-40%; }
+      100% { margin-left:100%; }
+    }
+    </style>
+
+  </div>
+  `;
+}
+
+// ⚡ CACHE INSTANTÁNEO
+
+
+// 🔥 FIREBASE
+try {
+  const ref = doc(db,"config","web");
+  const snap = await getDoc(ref);
+
+  if(snap.exists()){
+    const estado = snap.data().mantenimiento;
+
+    localStorage.setItem("mantenimiento", estado);
+
+    if(estado){
+      mostrarMantenimiento();
+      return;
+    }
   }
-});
+
+  // ✅ SI NO HAY MANTENIMIENTO → quitar loader
+  loader.style.display = "none";
+
+} catch(e){
+  console.log("error:", e);
+  loader.style.display = "none";
+}
 </script>
 
 </body>
